@@ -14,7 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.github.lightningnetwork.Rtx_export;
+import com.github.kamcpp.Lnd;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -74,7 +74,7 @@ public class LndService extends IntentService {
         }
 
         Log.i(TAG, "Starting LND");
-        String error = Rtx_export.StartLnd();
+        String error = Lnd.StartLnd();
         Log.e(TAG, error);
         stopForeground(true);
         writeShutdownFile();
@@ -96,7 +96,7 @@ public class LndService extends IntentService {
         shutdownFile = lndDir + "lndshutdown";
         new File(shutdownFile).delete();
 
-        String err = Rtx_export.InitLnd(lndDir);
+        String err = Lnd.InitLnd(lndDir);
         if (!err.isEmpty()) {
             Log.e(TAG, "Initializing LND failed: "+err);
             return err;
@@ -117,7 +117,7 @@ public class LndService extends IntentService {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Stopping LND");
-        short result = Rtx_export.StopLnd();
+        short result = Lnd.StopLnd();
         Log.i(TAG, "Result of stopping: "+String.valueOf(result));
         stopForeground(true);
         super.onDestroy();
